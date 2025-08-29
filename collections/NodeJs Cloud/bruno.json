@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "NodeJs Cloud",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
