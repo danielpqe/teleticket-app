@@ -3,13 +3,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
+import { CommonService } from 'src/common/common.service';
 
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
 
   constructor(
+    private readonly commonService: CommonService,
     @InjectModel(User.name) private readonly UserModel: Model<User>,
   ) {}
 
@@ -17,8 +18,8 @@ export class UsersService {
     try {
       const user = new this.UserModel({
         ...createUserDto,
-        code: this.generateUserCode(),
-        password: await this.hashPassword(createUserDto.password),
+        code: this.commonService.generateCode('USR'),
+        password: await this.commonService.hashPassword(createUserDto.password),
       });
       const result = await user.save();
       return result.code;
@@ -51,15 +52,5 @@ export class UsersService {
       }
       throw new BadRequestException('Error finding user');
     }
-  }
-
-  private generateUserCode(): string {
-    return `USR-${Math.floor(10000 + Math.random() * 900000).toString()}`;
-  }
-
-  private async hashPassword(password: string): Promise<string> {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSaltSync(saltRounds);
-    return bcrypt.hashSync(password, salt);
   }
 }

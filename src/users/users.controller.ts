@@ -24,7 +24,14 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const user = await this.usersService.findOne(id);
+    return {
+      success: true,
+      message: 'User retrieved successfully',
+      data: {
+        user_code: user._id,
+      },
+    };
   }
 }

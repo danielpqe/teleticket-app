@@ -4,6 +4,7 @@ import { v4 as UUIDv4 } from 'uuid';
 
 export type UserDocument = User & Document;
 
+// TODO: Agregar campo de eliminacion logica
 @Schema({ versionKey: false })
 export class User {
   @Prop({ type: String, default: UUIDv4, select: false })
