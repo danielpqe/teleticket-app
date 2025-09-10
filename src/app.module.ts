@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EventsModule } from './events/events.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonService } from './common/common.service';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CommonService } from './common/common.service';
       // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       synchronize: true, // Debe ser true solo en desarrollo
     }),
+    LoginModule,
   ],
   controllers: [],
   providers: [CommonService],
