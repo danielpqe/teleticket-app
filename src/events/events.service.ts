@@ -41,8 +41,12 @@ export class EventsService {
           'event_type',
           'event_category',
           'event_code',
-          'status',
           'event_status',
+          'status',
+          'created_user',
+          'updated_user',
+          'created_at',
+          'updated_at',
         ],
       });
     } catch (error) {
