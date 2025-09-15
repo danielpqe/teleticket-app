@@ -4,7 +4,6 @@ import {
   IsOptional,
   IsPositive,
   IsString,
-  Max,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -45,4 +44,8 @@ export class CreateEventDto {
   @IsString()
   @IsNotEmpty()
   event_category: string;
+
+  @IsString()
+  @IsNotEmpty()
+  event: string;
 }

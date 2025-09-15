@@ -5,18 +5,18 @@ import { EventsModule } from './events/events.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonService } from './common/common.service';
 import { LoginModule } from './login/login.module';
-import { LoginMiddleware } from './login/login.middleware';
-import { EventsController } from './events/events.controller';
-import { JwtModule } from '@nestjs/jwt';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ReservationsModule } from './reservations/reservations.module';
+import { JwtModule } from '@nestjs/jwt';
+import { LoginMiddleware } from './login/login.middleware';
+import { EventsController } from './events/events.controller';
 import { ReservationsController } from './reservations/reservations.controller';
 
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/ticketlab-app'),
+    MongooseModule.forRoot('mongodb://localhost:27017/teleticket-app'),
     EventsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -24,9 +24,10 @@ import { ReservationsController } from './reservations/reservations.controller';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'ticketlab_db',
+      database: 'teleticket_db',
       autoLoadEntities: true,
-      synchronize: true, //* Debe ser true solo en desarrollo.
+      // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      synchronize: true, // Debe ser true solo en desarrollo
     }),
     LoginModule,
     JwtModule.register({
@@ -37,8 +38,8 @@ import { ReservationsController } from './reservations/reservations.controller';
       },
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver, //* Solo en un entorno de desarrollo (seguro).
-      playground: true, //* Solo en un entorno de desarrollo (seguro).
+      driver: ApolloDriver,
+      playground: true,
       autoSchemaFile: true,
     }),
     ReservationsModule,

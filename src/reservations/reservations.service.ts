@@ -20,12 +20,15 @@ export class ReservationsService {
     email: string,
   ): Promise<string> {
     try {
-      const reservation = this.reservationRepository.create({
-        ...createReservationDto,
+      const { event, ...reservationData } = createReservationDto;
+      
+      const newReservationData = {
+        ...reservationData,
         reservation_code: this.commonService.generateCode('RES'),
         created_user: email,
-      });
+      };
 
+      const reservation = this.reservationRepository.create(newReservationData);
       const result = await this.reservationRepository.save(reservation);
 
       return result.reservation_code;

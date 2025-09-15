@@ -1,12 +1,9 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
 export class UserModel {
   @Field(() => ID)
   _id: string;
-
-  @Field(() => String)
-  email: string;
 
   @Field(() => String)
   name: string;
@@ -15,17 +12,14 @@ export class UserModel {
   last_name: string;
 
   @Field(() => String)
+  email: string;
+
+  @Field(() => String)
   password: string;
 
   @Field(() => String)
-  code?: string;
+  code: string;
 
-  @Field(() => Boolean)
-  status?: boolean;
-
-  @Field({ nullable: true })
-  createdAt?: Date;
-
-  @Field({ nullable: true })
-  updatedAt?: Date;
+  @Field(() => String)
+  status: boolean;
 }
