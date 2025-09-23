@@ -26,7 +26,7 @@ export class Event {
   event_type: string;
 
   @Column({ type: 'varchar', nullable: false })
-  event_category: string;
+  category: string;
 
   @Column({ type: 'varchar', unique: true, nullable: false })
   event_code: string;

@@ -31,7 +31,7 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     try {
-      return await this.UserModel.find().exec();
+      return await this.UserModel.find({}, { password: 0 }).exec();
     } catch (error) {
       this.logger.error(error.message);
       throw new BadRequestException(error.message);
@@ -51,6 +51,22 @@ export class UsersService {
         throw error;
       }
       throw new BadRequestException('Error finding user');
+    }
+  }
+
+  async validateLoginEmail(
+    email: string,
+  ): Promise<Pick<User, 'password'> | null> {
+    try {
+      /*
+       * opcional
+       * Considerar que el is_blocked !== true && max_attempts !== 0
+       */
+
+      return await this.UserModel.findOne({ email }, { password: 1 }).exec();
+    } catch (err) {
+      this.logger.error(err.message);
+      throw new BadRequestException(err.message);
     }
   }
 }

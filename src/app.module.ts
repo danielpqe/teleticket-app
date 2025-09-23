@@ -24,7 +24,7 @@ import { ReservationsController } from './reservations/reservations.controller';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'ticketlab_db',
+      database: 'teleticket_db',
       autoLoadEntities: true,
       synchronize: true, //* Debe ser true solo en desarrollo.
     }),
@@ -36,11 +36,11 @@ import { ReservationsController } from './reservations/reservations.controller';
         expiresIn: '1h',
       },
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver, //* Solo en un entorno de desarrollo (seguro).
-      playground: true, //* Solo en un entorno de desarrollo (seguro).
-      autoSchemaFile: true,
-    }),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver, //* Solo en un entorno de desarrollo (seguro).
+    //   playground: true, //* Solo en un entorno de desarrollo (seguro).
+    //   autoSchemaFile: true,
+    // }),
     ReservationsModule,
   ],
   controllers: [],
@@ -48,7 +48,6 @@ import { ReservationsController } from './reservations/reservations.controller';
 })
 export class AppModule {
   constructor(private readonly loginMiddleware: LoginMiddleware) {}
-
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(this.loginMiddleware.use.bind(this.loginMiddleware))

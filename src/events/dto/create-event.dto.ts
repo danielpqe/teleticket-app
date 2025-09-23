@@ -44,5 +44,5 @@ export class CreateEventDto {
 
   @IsString()
   @IsNotEmpty()
-  event_category: string;
+  category: string;
 }

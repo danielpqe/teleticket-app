@@ -20,7 +20,7 @@ export class User {
   email: string;
 
   // TODO: Refactor to validate JWT
-  @Prop({ required: true, select: false })
+  @Prop({ required: true })
   password: string;
 
   @Prop({ unique: true })
@@ -34,6 +34,15 @@ export class User {
 
   @Prop()
   updated_at: Date;
+
+  @Prop({ default: 3 })
+  max_attempts: number;
+
+  @Prop({ default: false })
+  is_blocked: boolean;
+
+  @Prop({ default: 'local' })
+  provider: ['local', 'google', 'facebook']; // TODO: Enum
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
