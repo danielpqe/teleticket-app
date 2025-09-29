@@ -12,6 +12,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ReservationsModule } from './reservations/reservations.module';
 import { ReservationsController } from './reservations/reservations.controller';
+import { KafkaModule } from './kafka/kafka.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ReservationsController } from './reservations/reservations.controller';
     //   autoSchemaFile: true,
     // }),
     ReservationsModule,
+    KafkaModule,
   ],
   controllers: [],
   providers: [CommonService],
