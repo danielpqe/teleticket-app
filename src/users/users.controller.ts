@@ -1,9 +1,18 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginService } from 'src/login/login.service';
 import { LoginDto } from 'src/login/dto/login.dto';
 
+@UsePipes(new ValidationPipe())
 @Controller('users')
 export class UsersController {
   constructor(

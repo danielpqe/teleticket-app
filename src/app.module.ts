@@ -37,11 +37,11 @@ import { KafkaModule } from './kafka/kafka.module';
         expiresIn: '1h',
       },
     }),
-    // GraphQLModule.forRoot<ApolloDriverConfig>({
-    //   driver: ApolloDriver, //* Solo en un entorno de desarrollo (seguro).
-    //   playground: true, //* Solo en un entorno de desarrollo (seguro).
-    //   autoSchemaFile: true,
-    // }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver, //* Solo en un entorno de desarrollo (seguro).
+      playground: true, //* Solo en un entorno de desarrollo (seguro).
+      autoSchemaFile: true,
+    }),
     ReservationsModule,
     KafkaModule,
   ],

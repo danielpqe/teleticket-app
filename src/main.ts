@@ -4,12 +4,12 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true, // TODO: Elimina campos no esperados
-      forbidNonWhitelisted: true, // TODO: Lanza error si hay campos no esperados
-    }),
-  );
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     whitelist: true, // TODO: Elimina campos no esperados
+  //     forbidNonWhitelisted: true, // TODO: Lanza error si hay campos no esperados
+  //   }),
+  // );
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
