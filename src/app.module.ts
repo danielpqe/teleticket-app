@@ -13,6 +13,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ReservationsModule } from './reservations/reservations.module';
 import { ReservationsController } from './reservations/reservations.controller';
 import { KafkaModule } from './kafka/kafka.module';
+// import { GraphqlModule } from './graphql/graphql.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { KafkaModule } from './kafka/kafka.module';
     }),
     ReservationsModule,
     KafkaModule,
+    // GraphqlModule,
   ],
   controllers: [],
   providers: [CommonService],
