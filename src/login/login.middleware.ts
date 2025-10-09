@@ -13,8 +13,9 @@ export class LoginMiddleware implements NestMiddleware {
 
   constructor(private readonly jwtService: JwtService) {}
 
-  // TODO: Refactorizar métido.
+  // TODO: Refactorizar método.
   async use(req: Request, res: Response, next: () => void) {
+    console.log('LoginMiddleware');
     const request = req.headers['authorization'];
     const token = request ? request.split(' ')[1] : null;
 

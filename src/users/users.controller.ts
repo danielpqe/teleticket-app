@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from 'src/login/dto/login.dto';
@@ -21,7 +29,7 @@ export class UsersController {
       data: {
         user_code: result,
       },
-    }
+    };
   }
 
   @Get()
@@ -30,8 +38,8 @@ export class UsersController {
     return {
       success: true,
       message: 'Users found successfully',
-      users
-    }
+      users,
+    };
   }
 
   @Get(':code')
@@ -40,19 +48,19 @@ export class UsersController {
     return {
       success: true,
       message: 'User found successfully',
-      user
-    }
+      user,
+    };
   }
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
-    const token = await this.loginService.login(loginDto)
+    const token = await this.loginService.login(loginDto);
 
     return {
       success: true,
       message: 'User logged successfully',
-      token
-    }
+      token,
+    };
   }
 
   // TODO: Agregar el controlador para buscar por :email o :name o :code (QueryParams)

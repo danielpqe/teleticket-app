@@ -12,6 +12,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { LoginMiddleware } from './login/login.middleware';
 import { EventsController } from './events/events.controller';
 import { ReservationsController } from './reservations/reservations.controller';
+import { KafkaModule } from './kafka/kafka.module';
+// import { GraphqlModule } from './graphql/graphql.module';
 
 @Module({
   imports: [
@@ -43,13 +45,14 @@ import { ReservationsController } from './reservations/reservations.controller';
       autoSchemaFile: true,
     }),
     ReservationsModule,
+    KafkaModule,
+    // GraphqlModule,
   ],
   controllers: [],
   providers: [CommonService],
 })
 export class AppModule {
   constructor(private readonly loginMiddleware: LoginMiddleware) {}
-
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(this.loginMiddleware.use.bind(this.loginMiddleware))

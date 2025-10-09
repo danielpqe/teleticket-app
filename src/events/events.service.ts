@@ -15,12 +15,12 @@ export class EventsService {
     private readonly commonService: CommonService,
   ) {}
 
-  async create(createEventDto: CreateEventDto): Promise<string> {
+  async create(createEventDto: CreateEventDto, user: string): Promise<string> {
     try {
       const event = this.eventRepository.create({
         ...createEventDto,
         event_code: this.commonService.generateCode('EVN'),
-        created_user: 'admin',
+        created_user: user,
       });
       const result = await this.eventRepository.save(event);
       return result.event_code;
@@ -39,7 +39,7 @@ export class EventsService {
           'location',
           'ticket_price',
           'event_type',
-          'event_category',
+          'category',
           'event_code',
           'event_status',
           'status',
@@ -54,5 +54,4 @@ export class EventsService {
       throw new Error('Error finding events');
     }
   }
-  º;
 }

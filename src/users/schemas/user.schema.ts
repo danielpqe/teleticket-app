@@ -7,35 +7,34 @@ export type UserDocument = User & Document;
 // TODO: Agregar campo de eliminación lógica
 @Schema({ versionKey: false })
 export class User {
-
   @Prop({
     type: String,
     default: uuidv4,
-    select: false
+    select: false,
   })
   _id: string;
 
   @Prop()
   name: string;
-  
+
   @Prop()
   last_name: string;
-  
+
   @Prop({ unique: true, required: true })
   email: string;
-  
+
   @Prop({ required: true, select: false })
   password: string;
-  
+
   @Prop({ unique: true })
   code: string;
 
   @Prop({ default: () => true })
   status: boolean;
-  
+
   @Prop({ default: () => new Date() })
   created_at: Date;
-  
+
   @Prop()
   updated_at: Date;
 

@@ -19,6 +19,34 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: teleticket-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: teleticket-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka-data:/var/lib/kafka
+
 volumes:
   mongo-data:
   postgres-data:
+  zookeeper-data:
+  kafka-data:

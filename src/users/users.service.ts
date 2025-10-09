@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  Logger
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
@@ -15,31 +11,31 @@ export class UsersService {
 
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
-    private readonly commonService: CommonService
-  ){}
+    private readonly commonService: CommonService,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<string> {
     try {
       const user = new this.userModel({
         ...createUserDto,
         code: this.commonService.generateCode('USR'),
-        password: await this.commonService.hashPassword(createUserDto.password)
+        password: await this.commonService.hashPassword(createUserDto.password),
       });
-  
-      const result = await user.save()
-      return result.code 
+
+      const result = await user.save();
+      return result.code;
     } catch (err) {
       this.logger.error(err.message);
       throw new BadRequestException(err.message);
-    } 
+    }
   }
 
   async findAll(): Promise<User[]> {
     try {
-      return await this.userModel.find().exec();
-    } catch (err) {
-      this.logger.error(err.message);
-      throw new BadRequestException(err.message);
+      return await this.userModel.find({}, { password: 0 }).exec();
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new BadRequestException(error.message);
     }
   }
 
@@ -53,12 +49,14 @@ export class UsersService {
   }
 
   //* Este método no esta expuesto en una ruta (Controller)
-  async validateLoginEmail(email: string): Promise<Pick<User, 'password'> | null> {
+  async validateLoginEmail(
+    email: string,
+  ): Promise<Pick<User, 'password'> | null> {
     try {
       /*
-      * opcional
-      * Considerar que el is_blocked !== true && max_attempts !== 0 
-      */
+       * opcional
+       * Considerar que el is_blocked !== true && max_attempts !== 0
+       */
 
       return await this.userModel.findOne({ email }, { password: 1 }).exec();
     } catch (err) {
