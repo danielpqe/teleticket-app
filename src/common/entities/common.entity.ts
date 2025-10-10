@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export abstract class CommonEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -6,10 +13,11 @@ export abstract class CommonEntity {
 
   @Column({ type: 'boolean', default: true })
   status?: boolean;
-  @Column({ type: 'timestamp', name: 'created_at' })
+
+  @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   created_at?: Date;
 
-  @Column({ type: 'timestamp', name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
   updated_at?: Date;
 
   @Column({ type: 'varchar', nullable: false })
@@ -17,4 +25,7 @@ export abstract class CommonEntity {
 
   @Column({ type: 'varchar', nullable: true })
   updated_user?: string;
+
+  @DeleteDateColumn({ type: 'timestamp', name: 'deleted_at' })
+  deleted_at?: Date;
 }
