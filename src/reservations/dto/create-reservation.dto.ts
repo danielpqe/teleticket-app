@@ -10,7 +10,5 @@ export class CreateReservationDto {
   @IsString()
   event_code: string;
 
-  @IsNotEmpty()
-  @IsString()
   event: string;
 }
