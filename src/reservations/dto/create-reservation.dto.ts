@@ -9,6 +9,4 @@ export class CreateReservationDto {
   @IsNotEmpty()
   @IsString()
   event_code: string;
-
-  event: string;
 }

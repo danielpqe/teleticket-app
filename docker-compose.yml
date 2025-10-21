@@ -48,5 +48,6 @@ services:
 volumes:
   mongo-data:
   postgres-data:
+    driver: local
   zookeeper-data:
   kafka-data:

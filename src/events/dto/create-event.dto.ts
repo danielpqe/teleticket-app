@@ -20,14 +20,6 @@ export class CreateEventDto {
   description: string;
 
   @IsString()
-  @IsOptional()
-  start_date: Date;
-
-  @IsString()
-  @IsOptional()
-  end_date: Date;
-
-  @IsString()
   @IsNotEmpty()
   @MaxLength(25)
   location: string;
@@ -43,9 +35,5 @@ export class CreateEventDto {
 
   @IsString()
   @IsNotEmpty()
-  event_category: string;
-
-  @IsString()
-  @IsNotEmpty()
-  event: string;
+  category: string;
 }

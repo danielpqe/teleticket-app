@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module, Post } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventsModule } from './events/events.module';
@@ -13,47 +13,50 @@ import { LoginMiddleware } from './login/login.middleware';
 import { EventsController } from './events/events.controller';
 import { ReservationsController } from './reservations/reservations.controller';
 import { KafkaModule } from './kafka/kafka.module';
+import { ConfigModule } from '@nestjs/config';
+import { PostgresConfig } from './config/db/postgres.config';
+import { MongoConfig } from './config/db/mongo.config';
+import { JwtConfig } from './config/jwt/jwt.config';
 // import { GraphqlModule } from './graphql/graphql.module';
+import { LoggerModule } from './logger/logger.module';
+import { LoggerMiddleware } from './logger/logger.middleware';
 
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/teleticket-app'),
+    MongooseModule.forRoot(MongoConfig),
     EventsModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'teleticket_db',
-      autoLoadEntities: true,
-      // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-      synchronize: true, // Debe ser true solo en desarrollo
-    }),
+    TypeOrmModule.forRoot(PostgresConfig),
     LoginModule,
-    JwtModule.register({
-      global: true,
-      secret: 'My_secret',
-      signOptions: {
-        expiresIn: '1h',
-      },
-    }),
+    JwtModule.register(JwtConfig),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: true,
     }),
     ReservationsModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV || 'dev'}`,
+    }),
     KafkaModule,
+    LoggerModule,
     // GraphqlModule,
   ],
   controllers: [],
-  providers: [CommonService],
+  providers: [CommonService, LoggerMiddleware],
 })
 export class AppModule {
-  constructor(private readonly loginMiddleware: LoginMiddleware) {}
+  constructor(
+    private readonly loginMiddleware: LoginMiddleware,
+    private readonly loggerMiddleware: LoggerMiddleware,
+  ) {}
+
   configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(this.loggerMiddleware.use.bind(this.loggerMiddleware))
+      .forRoutes('*');
+
     consumer
       .apply(this.loginMiddleware.use.bind(this.loginMiddleware))
       .forRoutes(EventsController, ReservationsController);

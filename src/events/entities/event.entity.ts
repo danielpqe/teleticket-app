@@ -10,7 +10,7 @@ import {
 @Entity('events')
 export class Event {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  _id: string;
 
   @Column({ type: 'varchar', nullable: false })
   name: string;
@@ -58,6 +58,8 @@ export class Event {
   @DeleteDateColumn({ select: false })
   deleted_at: Date;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.event)
+  @OneToMany(() => Reservation, (reservation) => reservation.event, {
+    nullable: true,
+  })
   reservations: Reservation[];
 }

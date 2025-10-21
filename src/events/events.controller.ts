@@ -39,4 +39,14 @@ export class EventsController {
       data: result,
     };
   }
+
+  @Get(':event_code')
+  async findByCode(@Param('event_code') event_code: string) {
+    const result = await this.eventsService.findByCode(event_code);
+    return {
+      success: true,
+      message: 'Event retrieved successfully',
+      data: result,
+    };
+  }
 }

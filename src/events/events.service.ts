@@ -54,4 +54,35 @@ export class EventsService {
       throw new Error('Error finding events');
     }
   }
+
+  async findByCode(event_code: string): Promise<Event> {
+    try {
+      const event = await this.eventRepository.findOne({
+        where: { event_code },
+        select: [
+          'name',
+          'description',
+          'location',
+          'ticket_price',
+          'event_type',
+          'category',
+          'event_code',
+          'event_status',
+          'status',
+          'created_user',
+          'updated_user',
+          'created_at',
+          'updated_at',
+        ],
+        relations: ['reservations'],
+      });
+      if (!event) {
+        throw new Error('Event not found');
+      }
+      return event;
+    } catch (error) {
+      this.logger.error('Error finding event by code', error.message);
+      throw new Error('Error finding event by code');
+    }
+  }
 }
