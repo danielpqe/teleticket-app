@@ -16,3 +16,24 @@ export const UserModelMock = {
   save: jest.fn(),
   _id: 'mock_id',
 };
+
+export const UserDTOMock = {
+  name: 'Daniel',
+  last_name: 'Quispe',
+  email: 'Daniel.Quispe2@gmail.com', //TODO: Agregar lógica para que el correo sea diferente
+  password: 'password',
+};
+
+export const UserEmailErrorDTOMock = {
+  name: 'Daniel',
+  last_name: 'Quispe',
+  email: 'Daniel.Quispegmail.com',
+  password: 'password',
+};
+
+export const UserEmailDuplicateDTOMock = {
+  name: 'Daniel',
+  last_name: 'Quispe',
+  email: 'Daniel.Quispe2@gmail.com',
+  password: 'password',
+};
